@@ -5,18 +5,22 @@ require 'sinatra/activerecord'
 require 'sinatra/url_for'
 require 'fast_jsonapi'
 require 'kaminari'
-
 require 'pry'
 
 require_relative 'app/models/ad'
-require_relative 'app/helpers/pagination_links'
 require_relative 'app/serializers/ad_serializer'
 require_relative 'app/serializers/error_serializer'
+require_relative 'app/helpers/pagination_links'
+require_relative 'app/helpers/api_errors'
+require_relative 'app/services/ads/create_service'
 
 class App < Sinatra::Base
-  register Sinatra::ActiveRecordExtension
-  helpers Sinatra::UrlForHelper
   include PaginationLinks
+  include ApiErrors
+
+  register Sinatra::ActiveRecordExtension
+
+  helpers Sinatra::UrlForHelper
 
   # Usage example:
   # curl -v http://127.0.0.1:3000
@@ -30,24 +34,24 @@ class App < Sinatra::Base
 
   # Usage example:
   # curl -v -X POST -H "Content-Type: application/json" -d \
-  #   '{"title": "Title", "description": "Description", "city": "City", "user_id": 5}' http://127.0.0.1:3000/ads
+  #   '{"ad": {"title": "Title", "description": "Desc", "city": "City", "user_id": 5}}' http://127.0.0.1:3000/ads
   post '/ads' do
-    content_type :json
-
     request.body.rewind
     data = JSON.parse(request.body.read)
-    ad_params = data.slice 'title', 'description', 'city', 'user_id'
+    ad_params = data.fetch('ad').slice 'title', 'description', 'city', 'user_id'
 
-    ad = Ad.new(ad_params)
+    result = Ads::CreateService.call(ad: ad_params)
 
-    if ad.save
-      serializer = AdSerializer.new(ad)
-      status :created
-      serializer.serialized_json
+    if result.success?
+      serializer = AdSerializer.new(result.ad)
+      content_type :json
+      status 201
+      body serializer.serialized_json
     else
-      status :unprocessable_entity
-      ErrorSerializer.from_model(ad).to_json
+      error_response(result.ad, 422)
     end
+  rescue StandardError => e
+    handle_exception(e)
   end
 
   run! if app_file == $0

@@ -29,5 +29,5 @@ make run
 ## Run tests
 
 ```
-TBD
+make test
 ```
