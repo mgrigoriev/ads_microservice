@@ -119,10 +119,6 @@ DEPENDENCIES
   rack-test
   rake
   rspec
-  rspec-core
-  rspec-expectations
-  rspec-mocks
-  rspec-support
   sinatra
   sinatra-activerecord
 

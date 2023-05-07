@@ -13,10 +13,6 @@ gem 'pry'
 group :development, :test do
   gem 'rack-test'
   gem 'rspec'
-  gem 'rspec-core'
-  gem 'rspec-expectations'
-  gem 'rspec-mocks'
-  gem 'rspec-support'
   gem 'factory_bot'
 end
 
