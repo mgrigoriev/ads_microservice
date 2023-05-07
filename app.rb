@@ -22,8 +22,6 @@ class App < Sinatra::Base
 
   helpers Sinatra::UrlForHelper
 
-  # Usage example:
-  # curl -v http://127.0.0.1:3000
   get '/' do
     content_type :json
 
@@ -32,9 +30,6 @@ class App < Sinatra::Base
     serializer.serialized_json
   end
 
-  # Usage example:
-  # curl -v -X POST -H "Content-Type: application/json" -d \
-  #   '{"ad": {"title": "Title", "description": "Desc", "city": "City", "user_id": 5}}' http://127.0.0.1:3000/ads
   post '/ads' do
     request.body.rewind
     data = JSON.parse(request.body.read)

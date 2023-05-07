@@ -24,7 +24,19 @@ make setup
 make run
 ```
 
-4. Open http://127.0.0.1:3000 in your browser.
+4. Usage examples:
+
+**Get ads**
+```
+curl -v http://127.0.0.1:3000
+```
+
+**Create ad**
+```
+curl -v -X POST -H "Content-Type: application/json" -d \
+'{"ad": {"title": "Title", "description": "Desc", "city": "City", "user_id": 5}}' \
+http://127.0.0.1:3000/ads
+```
 
 ## Run tests
 
