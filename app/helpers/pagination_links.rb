@@ -16,6 +16,10 @@ module PaginationLinks
   private
 
   def pagination_link(request, page:)
-    url_for(request.params.merge(only_path: true, page: page))
+    base_url = '/'
+    params_hash = request.params.merge(page: page)
+    query_string = URI.encode_www_form(params_hash)
+
+    "#{base_url}?#{query_string}"
   end
 end

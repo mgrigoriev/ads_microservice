@@ -1,11 +1,11 @@
 development:
   adapter: postgresql
   database: ads_microservice_development
-  pool: 5
-  timeout: 5000
+
+test:
+  adapter: postgresql
+  database: ads_microservice_test
 
 production:
   adapter: postgresql
   database: ads_microservice_production
-  pool: 5
-  timeout: 5000
