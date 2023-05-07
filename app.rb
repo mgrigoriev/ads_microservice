@@ -18,13 +18,19 @@ class App < Sinatra::Base
 
   get '/' do
     content_type :json
+
     ads = Ad.order(updated_at: :desc).page(params[:page])
     serializer = AdSerializer.new(ads, links: pagination_links(ads, request))
     serializer.serialized_json
   end
 
   post '/ads' do
-    ad_params = params.slice(:title, :description, :city, :user_id)
+    content_type :json
+
+    request.body.rewind
+    data = JSON.parse(request.body.read)
+    ad_params = data.slice 'title', 'description', 'city', 'user_id'
+
     ad = Ad.new(ad_params)
 
     if ad.save
