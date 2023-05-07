@@ -10,8 +10,8 @@ require 'pry'
 require_relative 'app/models/ad'
 require_relative 'app/serializers/ad_serializer'
 require_relative 'app/serializers/error_serializer'
-require_relative 'app/helpers/pagination_links'
-require_relative 'app/helpers/api_errors'
+require_relative 'app/lib/pagination_links'
+require_relative 'app/lib/api_errors'
 require_relative 'app/services/ads/create_service'
 
 class App < Sinatra::Base
