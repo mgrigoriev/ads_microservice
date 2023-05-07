@@ -1,0 +1,7 @@
+development:
+  adapter: postgresql
+  database: ads_microservice_development
+
+production:
+  adapter: postgresql
+  database: ads_microservice_production
