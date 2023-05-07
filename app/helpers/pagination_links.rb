@@ -17,7 +17,7 @@ module PaginationLinks
 
   def pagination_link(request, page:)
     base_url = '/'
-    params_hash = request.params.merge(page: page)
+    params_hash = request.params.merge('page' => page)
     query_string = URI.encode_www_form(params_hash)
 
     "#{base_url}?#{query_string}"
