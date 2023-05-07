@@ -48,6 +48,4 @@ class App < Sinatra::Base
   rescue StandardError => e
     handle_exception(e)
   end
-
-  run! if app_file == $0
 end
